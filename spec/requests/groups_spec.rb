@@ -53,7 +53,7 @@ RSpec.describe 'Groups API', type: :request do
   # Test suite for POST /groups
   describe 'POST /groups' do
     # valid payload
-    let(:valid_attributes) { { leader: 'Ivan Ivanov', created_by: '1' } }
+    let(:valid_attributes) { { group_name: 'PI-16-2', leader: 'Ivan Ivanov' } }
 
     context 'when the request is valid' do
       before { post '/groups', params: valid_attributes }
@@ -68,14 +68,15 @@ RSpec.describe 'Groups API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/groups', params: { leader: 'Foobar' } }
+      before { post '/groups', params: { leader: 'Ivan' } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
 
       it 'returns a validation failure message' do
-        expect(response.body).to match(/Validation failed: Created by can't be blank/)
+        expect(response.body)
+            .to match(/Validation failed: Group name can't be blank/)
       end
     end
   end

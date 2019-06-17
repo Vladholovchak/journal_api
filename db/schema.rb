@@ -16,18 +16,18 @@ ActiveRecord::Schema.define(version: 2019_06_17_202303) do
   enable_extension "plpgsql"
 
   create_table "groups", force: :cascade do |t|
-    t.string "group_name"
-    t.date "start_stud_date"
-    t.string "leader"
+    t.string "group_name", default: ""
+    t.date "start_stud_date", default: "2019-04-13"
+    t.string "leader", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "students", force: :cascade do |t|
-    t.string "name"
-    t.string "surname"
-    t.string "father_name"
-    t.date "date_of_birth"
+    t.string "name", default: ""
+    t.string "surname", default: ""
+    t.string "father_name", default: ""
+    t.date "date_of_birth", default: "2019-04-13"
     t.bigint "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
