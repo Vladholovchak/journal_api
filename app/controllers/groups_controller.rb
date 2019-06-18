@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
 
   def group_params
     # whitelist params
-    params.permit(:group_name, :leader)
+    params.permit(:group_name, :start_stud_date, :leader)
   end
 
   def set_group

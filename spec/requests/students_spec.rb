@@ -63,7 +63,7 @@ RSpec.describe 'Students API' do
 
   # Test suite for PUT /groups/:group_id/students
   describe 'POST /groups/:group_id/students' do
-    let(:valid_attributes) { { name: 'Vlad' } }
+    let(:valid_attributes) { { name: 'Vlad', surname: 'Ivanov', father_name:'Petrov', date_of_birth: '2019-04-13'} }
 
     context 'when request attributes are valid' do
       before { post "/groups/#{group_id}/students", params: valid_attributes }
