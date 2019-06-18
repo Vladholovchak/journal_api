@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :student do
-    name {Faker::StarWars.character}
+    name {Faker::Movies::StarWars.character}
   end
 end
