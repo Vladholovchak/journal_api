@@ -5,6 +5,8 @@ RSpec.describe 'Groups API', type: :request do
   # initialize test data
   let!(:groups) { create_list(:group, 10) }
   let(:group_id) { groups.first.id }
+  let(:user) { create(:user)}
+  before { sign_in user }
 
   # Test suite for GET /groups
   describe 'GET /groups' do
@@ -53,13 +55,13 @@ RSpec.describe 'Groups API', type: :request do
   # Test suite for POST /groups
   describe 'POST /groups' do
     # valid payload
-    let(:valid_attributes) { { group_name: 'PI-16-2', leader: 'Ivan Ivanov' } }
+    let(:valid_attributes) { { group_name: 'PI-17-3', leader: 'Ivan', start_stud_date: '5-5-14' } }
 
     context 'when the request is valid' do
       before { post '/groups', params: valid_attributes }
 
       it 'creates a group' do
-        expect(json['leader']).to eq('Ivan Ivanov')
+        expect(json['leader']).to eq('Ivan')
       end
 
       it 'returns status code 201' do
@@ -106,4 +108,4 @@ RSpec.describe 'Groups API', type: :request do
       expect(response).to have_http_status(204)
     end
   end
-end
+  end

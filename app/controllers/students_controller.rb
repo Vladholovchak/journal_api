@@ -11,15 +11,14 @@ class StudentsController < ApplicationController
     json_response(@students)
   end
 
-  # GET /groups/:group_id/students/:id
+  # GET /students/:id
   def show
     json_response(set_stud)
   end
 
-  # POST /groups/:group_id/students
+  # POST /students
   def create
-    @student = Student.new(student_params)
-    @student.create!
+    @student = Student.create!(student_params)
     json_response(@student, :created)
   end
 
@@ -36,7 +35,7 @@ class StudentsController < ApplicationController
   end
 
   private
-  # :group_id?
+
   def student_params
     params.permit(:name, :surname, :father_name, :date_of_birth, :group_id)
   end

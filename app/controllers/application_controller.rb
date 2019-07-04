@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
   include Response
   include ExceptionHandler
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
 
   def render_resource(resource)
     if resource.errors.empty?

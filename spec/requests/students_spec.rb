@@ -6,10 +6,13 @@ RSpec.describe 'Students API' do
   let!(:students) { create_list(:student, 20, group_id: group.id) }
   let(:group_id) { group.id }
   let(:id) { students.first.id }
+  let(:param) {{group_id: group_id}}
+  let(:user) { create(:user)}
+  before { sign_in user }
 
-  # Test suite for GET /groups/:group_id/students
-  describe 'GET /groups/:group_id/students' do
-    before { get "/groups/#{group_id}/students" }
+  # Test suite for GET /students
+  describe 'GET /students' do
+    before { get "/students", params: param }
 
     context 'when todo exists' do
       it 'returns status code 200' do
@@ -34,9 +37,9 @@ RSpec.describe 'Students API' do
     end
   end
 
-  # Test suite for GET /gr/:group_id/students/:id
-  describe 'GET /groups/:group_id/students/:id' do
-    before { get "/groups/#{group_id}/students/#{id}" }
+  # Test suite for GET students/:id
+  describe 'GET /students/:id' do
+    before { get "/students/#{id}", params: param }
 
     context 'when group student exists' do
       it 'returns status code 200' do
@@ -61,12 +64,13 @@ RSpec.describe 'Students API' do
     end
   end
 
-  # Test suite for PUT /groups/:group_id/students
-  describe 'POST /groups/:group_id/students' do
-    let(:valid_attributes) { { name: 'Vlad', surname: 'Ivanov', father_name:'Petrov', date_of_birth: '2019-04-13'} }
+  # Test suite for POST students
+  describe 'POST /students' do
+    let(:valid_attributes) { { name: 'Vlad', surname: 'Ivanov', father_name: 'Petrov',
+                                 date_of_birth: '2019-04-13', group_id: group_id } }
 
     context 'when request attributes are valid' do
-      before { post "/groups/#{group_id}/students", params: valid_attributes }
+      before { post '/students', params: valid_attributes }
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
@@ -74,23 +78,23 @@ RSpec.describe 'Students API' do
     end
 
     context 'when an invalid request' do
-      before { post "/groups/#{group_id}/students", params: {} }
+      before { post '/students', params: {} }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
 
       it 'returns a failure message' do
-        expect(response.body).to match(/Validation failed: Name can't be blank/)
+        expect(response.body).to match(/Validation failed: Group must exist/)
       end
     end
   end
 
-  # Test suite for PUT /groups/:group_id/students/:id
-  describe 'PUT /groups/:group_id/students/:id' do
+  # Test suite for PUT /students/:id
+  describe 'PUT /students/:id' do
     let(:valid_attributes) { { name: 'Mozart' } }
 
-    before { put "/groups/#{group_id}/students/#{id}", params: valid_attributes }
+    before { put "/students/#{id}", params: valid_attributes }
 
     context 'when student exists' do
       it 'returns status code 204' do
@@ -117,8 +121,8 @@ RSpec.describe 'Students API' do
   end
 
   # Test suite for DELETE /groups/:id
-  describe 'DELETE /groups/:id' do
-    before { delete "/groups/#{group_id}/students/#{id}" }
+  describe 'DELETE /students/:id' do
+    before { delete "/students/#{id}" }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
